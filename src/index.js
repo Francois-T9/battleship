@@ -1,4 +1,2 @@
-import {test} from "./test.js";
+import { Ship } from "./game-factories.js";
 import "./styles.css";
-
-console.log(test);
