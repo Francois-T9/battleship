@@ -16,18 +16,46 @@ export function Ship(length, numberOfHits, sunk) {
 }
 
 export function Gameboard(ship, x, y) {
-  const initializeGameboard = () => {
-    const board = [];
+  const board = (() => {
+    const tempBoard = [];
     for (let i = 0; i < 10; i++) {
-      board[i] = [];
+      tempBoard[i] = [];
       for (let j = 0; j < 10; j++) {
-        board[i][j] = 0;
+        tempBoard[i][j] = 0;
       }
     }
-    return board;
-  };
-  const board1 = initializeGameboard();
+    return tempBoard;
+  })();
 
-  const setShip = () => {};
-  return { board1 };
+  return {
+    getBoard() {
+      return board;
+    },
+
+    setShip(board) {
+      for (let i = 0; i < ship.length; i++) {
+        board[x][y + i] = 1;
+      }
+      return board;
+    },
+    missedHits: 0,
+    attackedCoordinates: [],
+
+    receiveAttack(board, attackX, attackY) {
+      //need to make sure to not attack the same cell twice
+      this.attackedCoordinates.push(attackX, attackY);
+      if (board[attackX][attackY] === 0) {
+        this.missedHits++;
+      } else {
+        ship.hit();
+      }
+    },
+
+    allShipsSunk() {
+      //check all the ships not only one
+      if (ship.numberOfHits >= ship.length) {
+        return true;
+      } else return false;
+    },
+  };
 }
