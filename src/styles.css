@@ -1,4 +1,104 @@
-/* styles.css */
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "Press Start 2P", system-ui;
+}
 body {
-    background-color: rebeccapurple;
-  }
+  width: 100vw;
+  height: 100vh;
+}
+
+.container {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  flex-direction: column;
+}
+
+.header {
+  height: 5em;
+  width: 100%;
+  background-color: white;
+  grid-row: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.main {
+  width: 100%;
+  background-color: black;
+  flex-grow: 1;
+  color: white;
+  display: flex;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.main .players {
+  /* width: 50%; */
+  height: 50%;
+  display: flex;
+}
+.players .player-one,
+.players .player-two {
+  width: 50%;
+}
+
+.player-name-input {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  align-self: center;
+  gap: 5px;
+  visibility: hidden;
+  background-color: rgb(104, 104, 104);
+  border-radius: 20px;
+  padding: 20px;
+}
+
+.player-name-input input {
+  border-radius: 20px;
+  border: none;
+  height: 1em;
+  padding: 5px;
+}
+.player-name-input #select-name-input {
+  background-color: rgb(0, 151, 0);
+  color: white;
+  width: 10em;
+  padding: 10px 5px 10px 5px;
+}
+.player-name-input #cancel-name-input {
+  background-color: rgba(243, 0, 0, 0.705);
+  color: white;
+  width: 10em;
+  padding: 10px 5px 10px 5px;
+}
+
+.main #start-game {
+  background-color: rgb(0, 151, 0);
+  color: white;
+  width: 10em;
+  padding: 10px 5px 10px 5px;
+  align-self: center;
+}
+.main #start-game:hover {
+  cursor: pointer;
+}
+
+.footer {
+  height: 5em;
+  width: 100%;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+.footer img {
+  width: 50px;
+}
