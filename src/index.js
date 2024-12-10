@@ -1,3 +1,7 @@
-import { Ship, Gameboard, Player } from "./game-factories.js";
-import { addPlayerName } from "./DOM-actions.js";
+import { Gameboard } from "./gameboard.js";
+import { Ship } from "./ship.js";
+import { Player } from "./player.js";
+import { addPlayerName, renderGameboard } from "./DOM-actions.js";
 import "./styles.css";
+
+renderGameboard(Gameboard());
