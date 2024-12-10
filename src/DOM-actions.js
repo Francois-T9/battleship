@@ -26,4 +26,23 @@ const addPlayerName = (() => {
   };
 })();
 
-export { addPlayerName };
+const renderGameboard = (gameboard) => {
+  const board = gameboard.getBoard();
+  console.log(board);
+
+  const createBoard = (() => {
+    const boardContainer = document.querySelector(".board");
+    console.log(boardContainer);
+    for (let i = 1; i < board.length + 1; i++) {
+      for (let j = 1; j < board.length + 1; j++) {
+        const cell = document.createElement("div");
+        cell.setAttribute("class", "cell");
+        cell.setAttribute("id", `${i}-${j}`);
+
+        boardContainer.appendChild(cell);
+      }
+    }
+  })();
+};
+
+export { addPlayerName, renderGameboard };
