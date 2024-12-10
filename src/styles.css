@@ -16,7 +16,7 @@ body {
 }
 
 .header {
-  height: 5em;
+  height: 2em;
   width: 100%;
   background-color: white;
   grid-row: 0;
@@ -37,9 +37,24 @@ body {
   justify-content: center;
 }
 
+.main .board {
+  background-color: white;
+  width: 40%; /* Adjust this as needed */
+  aspect-ratio: 1 / 1; /* Ensures the board remains square */
+  display: grid; /* Use CSS grid for precise control */
+  grid-template-columns: repeat(10, 1fr); /* 10 columns of equal width */
+  grid-template-rows: repeat(10, 1fr); /* 10 rows of equal height */
+  box-sizing: border-box; /* Include border in the element size */
+}
+
+.main .board .cell {
+  border: 1px solid black;
+  box-sizing: border-box; /* Ensures border is included in the size */
+}
+
 .main .players {
   /* width: 50%; */
-  height: 50%;
+  height: 5em;
   display: flex;
 }
 .players .player-one,
@@ -91,7 +106,7 @@ body {
 }
 
 .footer {
-  height: 5em;
+  height: 2em;
   width: 100%;
   background-color: white;
   display: flex;
