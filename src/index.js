@@ -1,7 +1,13 @@
 import { Gameboard } from "./gameboard.js";
 import { Ship } from "./ship.js";
 import { Player } from "./player.js";
-import { addPlayerName, renderGameboard } from "./DOM-actions.js";
+import { startGame, randomizeShips, setCellImage } from "./DOM-actions.js";
 import "./styles.css";
 
-renderGameboard(Gameboard());
+const playerGameboard = Gameboard();
+const computerGameboard = Gameboard();
+
+const playerShips = randomizeShips();
+const computerShips = randomizeShips();
+
+startGame(playerGameboard, computerGameboard);
