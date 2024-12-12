@@ -38,8 +38,15 @@ body {
 }
 
 .main .board {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+}
+.main .player-board,
+.main .computer-board {
   background-color: white;
-  width: 40%; /* Adjust this as needed */
+  width: 30%; /* Adjust this as needed */
   aspect-ratio: 1 / 1; /* Ensures the board remains square */
   display: grid; /* Use CSS grid for precise control */
   grid-template-columns: repeat(10, 1fr); /* 10 columns of equal width */
@@ -47,9 +54,16 @@ body {
   box-sizing: border-box; /* Include border in the element size */
 }
 
-.main .board .cell {
+.main .player-board-cell,
+.main .computer-board-cell {
   border: 1px solid black;
   box-sizing: border-box; /* Ensures border is included in the size */
+}
+
+.main .player-board-cell:hover,
+.main .computer-board-cell:hover {
+  background-color: gainsboro;
+  cursor: pointer;
 }
 
 .main .players {
@@ -60,6 +74,8 @@ body {
 .players .player-one,
 .players .player-two {
   width: 50%;
+  display: flex;
+  justify-content: center;
 }
 
 .player-name-input {
@@ -103,6 +119,10 @@ body {
 }
 .main #start-game:hover {
   cursor: pointer;
+}
+
+.main .board img {
+  width: 20px;
 }
 
 .footer {
