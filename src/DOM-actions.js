@@ -1,9 +1,9 @@
 import { Ship } from "./ship.js";
+import { Gameboard } from "./gameboard.js";
 import missImg from "./img/icons8-red-cross-48.png";
+import hitImg from "./img/icons8-crossed-swords-48.png";
 
-const renderGameboard = (gameboard, gameboardContainer) => {
-  const board = gameboard.getBoard();
-
+const renderGameboard = (board, gameboardContainer) => {
   //functions
   const createBoard = (container) => {
     container.style.visibility = "";
@@ -14,6 +14,10 @@ const renderGameboard = (gameboard, gameboardContainer) => {
         cell.setAttribute("id", `${i}-${j}`);
 
         container.appendChild(cell);
+        if (board[i - 1][j - 1] === 1) {
+          //give a different color for each ship
+          cell.style.backgroundColor = "grey";
+        }
       }
     }
   };
@@ -24,9 +28,10 @@ const renderGameboard = (gameboard, gameboardContainer) => {
       cell.addEventListener("click", () => {
         const cellX = `${cell.className}-${cell.id}`.split("-")[3];
         const cellY = `${cell.className}-${cell.id}`.split("-")[4];
+
         setCellImage(cell, missImg);
 
-        console.log(cellX, cellY);
+        // board.receiveAttack(board);
         return { cellX, cellY };
       });
     });
@@ -38,12 +43,19 @@ const renderGameboard = (gameboard, gameboardContainer) => {
 };
 
 const startGame = (playerGameboard, computerGameboard) => {
+  //containers
   const playerGameboardContainer = document.querySelector(".player-board");
   const computerGameboardContainer = document.querySelector(".computer-board");
 
   const startGameButton = document.getElementById("start-game");
   const playerNameInput = document.getElementById("player-name");
   const playerInputForm = document.querySelector(".player-name-input");
+
+  //boards
+  const playerBoard = playerGameboard.getBoard();
+  const computerBoard = computerGameboard.getBoard();
+
+  //event listeners
 
   startGameButton.addEventListener("click", () => {
     const acceptName = document.getElementById("select-name-input");
@@ -54,9 +66,29 @@ const startGame = (playerGameboard, computerGameboard) => {
       let nameValue = playerNameInput.value;
       displayPlayerName(nameValue);
       playerInputForm.style.visibility = "hidden";
+      startGameButton.style.visibility = "hidden";
+      //create random ships
+      const { ships: playerShips, shipsPosition: playerPositions } =
+        randomizeShips();
 
-      renderGameboard(playerGameboard, playerGameboardContainer);
-      renderGameboard(computerGameboard, computerGameboardContainer);
+      const computerShips = randomizeShips();
+
+      //set ships at random positions
+
+      for (let i = 0; i < playerShips.length; i++) {
+        playerGameboard.setShip(
+          playerBoard,
+          playerShips[i],
+
+          playerPositions[i].row,
+          playerPositions[i].col
+        );
+      }
+
+      //display boards
+
+      renderGameboard(playerBoard, playerGameboardContainer);
+      renderGameboard(computerBoard, computerGameboardContainer);
     });
     cancelNameSelection.addEventListener("click", () => {
       playerInputForm.style.visibility = "hidden";
@@ -76,12 +108,41 @@ const setAttackMarker = (state) => {
 
 const randomizeShips = () => {
   let ships = [];
+  let shipsPosition = [];
+
   for (let i = 0; i < 5; i++) {
-    ships.push(Ship(Math.floor(Math.random() * 4 + 2), 0, false));
+    // Create a ship with random length between 2 and 5
+    let length = Math.floor(Math.random() * 4 + 2);
+    let orientation = Math.random() < 0.5 ? "horizontal" : "vertical";
+
+    let position;
+    let validPlacement = false;
+
+    while (!validPlacement) {
+      // Generate random starting position
+      let row = Math.floor(Math.random() * 10);
+      let col = Math.floor(Math.random() * 10);
+
+      // Check if the ship fits within the board based on orientation
+      if (
+        (orientation === "horizontal" && col + length <= 10) ||
+        (orientation === "vertical" && row + length <= 10)
+      ) {
+        position = { row, col, orientation };
+        validPlacement = true;
+      }
+    }
+
+    ships.push({ length, orientation });
+    shipsPosition.push(position);
   }
-  //returns an array of 5 ships with random length
-  return ships;
+
+  return { ships, shipsPosition };
 };
+
+// const randomizeShipPosition = () => {
+//   return Math.floor(Math.random() * 10);
+// };
 
 const setCellImage = (cell, img) => {
   const imageContainer = document.createElement("img");
@@ -89,4 +150,5 @@ const setCellImage = (cell, img) => {
 
   cell.appendChild(imageContainer);
 };
+
 export { startGame, renderGameboard, randomizeShips, setCellImage };
