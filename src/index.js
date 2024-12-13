@@ -7,7 +7,4 @@ import "./styles.css";
 const playerGameboard = Gameboard();
 const computerGameboard = Gameboard();
 
-const playerShips = randomizeShips();
-const computerShips = randomizeShips();
-
 startGame(playerGameboard, computerGameboard);
