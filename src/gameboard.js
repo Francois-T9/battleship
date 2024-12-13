@@ -17,8 +17,14 @@ export function Gameboard() {
     },
 
     setShip(board, ship, x, y) {
+      //make sure that the function does not modify the size of board
+      //i.e the ship need to fit
       for (let i = 0; i < ship.length; i++) {
-        board[x][y + i] = 1;
+        if (ship.orientation == "horizontal") {
+          board[x][y + i] = 1;
+        } else {
+          board[x + i][y] = 1;
+        }
       }
       this.ships.push(ship);
       return board;
