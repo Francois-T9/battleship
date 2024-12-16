@@ -110,14 +110,28 @@ body {
   padding: 10px 5px 10px 5px;
 }
 
-.main #start-game {
-  background-color: rgb(0, 151, 0);
+.buttons {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.main .buttons > * {
+  /* background-color: rgb(0, 151, 0); */
   color: white;
   width: 10em;
   padding: 10px 5px 10px 5px;
-  align-self: center;
 }
-.main #start-game:hover {
+
+#start-game {
+  background-color: rgb(0, 151, 0);
+}
+#randomize-ships {
+  background-color: rgb(255, 75, 75);
+}
+.main #start-game:hover,
+#randomize-ships:hover {
   cursor: pointer;
 }
 
