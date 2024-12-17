@@ -1,8 +1,10 @@
+import { Ship } from "./ship.js";
 const setAttackMarker = (state) => {
   //state will be 1 if attack hits
   // and 0 if attack misses
 };
 
+//needs to make sure that the ships are not overlapping
 const randomizeShips = () => {
   let ships = [];
   let shipsPosition = [];
@@ -29,8 +31,8 @@ const randomizeShips = () => {
         validPlacement = true;
       }
     }
-
-    ships.push({ length, orientation });
+    let ship = Ship(length, orientation, position, 0, false);
+    ships.push(ship);
     shipsPosition.push(position);
   }
 
