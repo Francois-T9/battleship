@@ -1,7 +1,8 @@
-export function Ship(length, orientation, numberOfHits, sunk) {
+export function Ship(length, orientation, position, numberOfHits, sunk) {
   return {
     length: length,
     orientation: orientation,
+    position: position,
     numberOfHits: numberOfHits,
     sunk: sunk,
 
