@@ -41,9 +41,11 @@ export function Gameboard() {
       ) {
         this.missedHits++;
         this.missedAttacksCoordinates.push([attackX, attackY]);
+        return false;
       } else {
         ship.hit();
         this.hitAttackCoordinates.push([attackX, attackY]);
+        return true;
       }
     },
 
@@ -59,4 +61,13 @@ export function Gameboard() {
       // else return false;
     },
   };
+}
+
+function containsSubArray(array, subArray) {
+  return array.some(
+    (item) =>
+      Array.isArray(item) &&
+      item.length === subArray.length &&
+      item.every((value, index) => value === subArray[index])
+  );
 }
