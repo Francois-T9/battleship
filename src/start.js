@@ -61,7 +61,12 @@ const startGame = (playerGameboard, computerGameboard) => {
       renderGameboard(computerBoard, computerGameboardContainer);
 
       //starts the game
-      game(playerGameboardContainer, computerGameboardContainer);
+      game(
+        playerGameboardContainer,
+        computerGameboardContainer,
+        playerGameboard,
+        computerGameboard
+      );
     });
     cancelNameSelection.addEventListener("click", () => {
       playerInputForm.style.visibility = "hidden";
