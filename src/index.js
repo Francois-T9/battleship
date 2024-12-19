@@ -1,7 +1,6 @@
 import { Gameboard } from "./gameboard.js";
-import { Ship } from "./ship.js";
-import { Player } from "./player.js";
-import { startGame, randomizeShips, setCellImage } from "./DOM-actions.js";
+import { startGame } from "./start.js";
+import { displayShips, randomizeShips } from "./dom.js";
 import "./styles.css";
 
 const playerGameboard = Gameboard();
