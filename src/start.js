@@ -26,8 +26,8 @@ const startGame = (playerGameboard, computerGameboard) => {
     clearBoard(playerGameboardContainer, playerBoard);
     clearBoard(computerGameboardContainer, computerBoard);
 
-    displayShips(playerGameboard, playerShips, playerPositions);
-    displayShips(computerGameboard, computerShips, computerPositions);
+    displayShips(playerGameboard, playerShips);
+    displayShips(computerGameboard, computerShips);
 
     renderGameboard(playerBoard, playerGameboardContainer);
     renderGameboard(computerBoard, computerGameboardContainer);
@@ -44,16 +44,14 @@ const startGame = (playerGameboard, computerGameboard) => {
       playerInputForm.style.visibility = "hidden";
       startGameButton.style.visibility = "hidden";
       //create random ships and positions for user
-      const { ships: playerShips, shipsPosition: playerPositions } =
-        randomizeShips();
+      const playerShips = randomizeShips();
       //create random ships and positions for user
-      const { ships: computerShips, shipsPosition: computerPositions } =
-        randomizeShips();
+      const computerShips = randomizeShips();
 
       //set ships at random positions
 
-      displayShips(playerGameboard, playerShips, playerPositions);
-      displayShips(computerGameboard, computerShips, computerPositions);
+      displayShips(playerGameboard, playerShips);
+      displayShips(computerGameboard, computerShips);
 
       //display boards
 
