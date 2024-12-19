@@ -16,39 +16,40 @@ export function Gameboard() {
       return board;
     },
 
-    setShip(board, ship, x, y) {
+    setShip(board, ship) {
       //make sure that the function does not modify the size of board
       //i.e the ship need to fit
+
       for (let i = 0; i < ship.length; i++) {
-        if (ship.orientation == "horizontal") {
-          board[x][y + i] = 1;
-        } else {
-          board[x + i][y] = 1;
-        }
+        let x = ship.positions[i][0];
+        let y = ship.positions[i][1];
+        board[x][y] = 1;
       }
       this.ships.push(ship);
       return board;
     },
     missedHits: 0,
     missedAttacksCoordinates: [],
-    hitAttackCoordinates: [],
+    hittedShips: [],
 
-    receiveAttack(board, ship, attackX, attackY) {
-      //need to make sure to not attack the same cell twice
-      if (
-        board[attackX][attackY] === 0 ||
-        containsSubArray(this.hitAttackCoordinates, [attackX, attackY])
-      ) {
-        this.missedHits++;
-        this.missedAttacksCoordinates.push([attackX, attackY]);
-        return false;
-      } else {
-        ship.hit();
-        this.hitAttackCoordinates.push([attackX, attackY]);
-        return true;
+    receiveAttack(attackX, attackY) {
+      //check if attackX and attackY corresponds to an exact position
+      //of a a ship, and return this exact ship
+
+      //now it works, but the Ship object needs to contain all
+      //the positions taken by the ship
+
+      for (let ship of this.ships) {
+        for (let position of ship.positions) {
+          if (position[0] == attackX && position[1] == attackY) {
+            console.log(
+              `Ship of length ${ship.length} and ${ship.orientation} has been hit`
+            );
+            ship.hit();
+          }
+        }
       }
     },
-
     allShipsSunk() {
       let numberOfShipsSunk = 0;
       for (let ship of this.ships) {
