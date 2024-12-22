@@ -28,9 +28,7 @@ export function Gameboard() {
       this.ships.push(ship);
       return board;
     },
-    missedHits: 0,
-    missedAttacksCoordinates: [],
-    hittedShips: [],
+    attackedCoordinates: [],
 
     receiveAttack(attackX, attackY) {
       //check if attackX and attackY corresponds to an exact position
@@ -38,7 +36,7 @@ export function Gameboard() {
 
       //now it works, but the Ship object needs to contain all
       //the positions taken by the ship
-
+      this.attackedCoordinates.push([attackX, attackY]);
       for (let ship of this.ships) {
         for (let position of ship.positions) {
           if (position[0] == attackX && position[1] == attackY) {
@@ -46,6 +44,8 @@ export function Gameboard() {
               `Ship of length ${ship.length} and ${ship.orientation} has been hit`
             );
             ship.hit();
+            ship.isSunk();
+            return true;
           }
         }
       }
@@ -57,18 +57,9 @@ export function Gameboard() {
           numberOfShipsSunk++;
         }
       }
-      return numberOfShipsSunk;
-      // if (numberOfShipsSunk === this.ships.length) return true;
-      // else return false;
+      // return numberOfShipsSunk;
+      if (numberOfShipsSunk === this.ships.length) return true;
+      else return false;
     },
   };
-}
-
-function containsSubArray(array, subArray) {
-  return array.some(
-    (item) =>
-      Array.isArray(item) &&
-      item.length === subArray.length &&
-      item.every((value, index) => value === subArray[index])
-  );
 }
