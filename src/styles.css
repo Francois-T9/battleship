@@ -58,6 +58,9 @@ body {
 .main .computer-board-cell {
   border: 1px solid black;
   box-sizing: border-box; /* Ensures border is included in the size */
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .main .player-board-cell:hover,
@@ -66,6 +69,12 @@ body {
   cursor: pointer;
 }
 
+.main .score-board {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+}
 .main .players {
   /* width: 50%; */
   height: 5em;
