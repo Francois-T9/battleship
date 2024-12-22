@@ -1,5 +1,12 @@
 import { renderGameboard } from "./render.js";
-import { randomizeShips, displayShips, clearBoard } from "./dom.js";
+import {
+  randomizeShips,
+  displayShips,
+  clearBoard,
+  isShipOverlapping,
+  containsSubarray,
+  checkDistinct,
+} from "./dom.js";
 import { game } from "./game.js";
 const startGame = (playerGameboard, computerGameboard) => {
   //board containers
@@ -18,19 +25,23 @@ const startGame = (playerGameboard, computerGameboard) => {
 
   //event listeners
   randomizeButton.addEventListener("click", () => {
-    const { ships: playerShips, shipsPosition: playerPositions } =
-      randomizeShips();
-    const { ships: computerShips, shipsPosition: computerPositions } =
-      randomizeShips();
+    const playerShips = randomizeShips();
+    const computerShips = randomizeShips();
 
-    clearBoard(playerGameboardContainer, playerBoard);
-    clearBoard(computerGameboardContainer, computerBoard);
+    clearBoard(playerGameboardContainer, playerGameboard);
+    clearBoard(computerGameboardContainer, computerGameboard);
 
     displayShips(playerGameboard, playerShips);
     displayShips(computerGameboard, computerShips);
 
     renderGameboard(playerBoard, playerGameboardContainer);
     renderGameboard(computerBoard, computerGameboardContainer);
+    game(
+      playerGameboardContainer,
+      computerGameboardContainer,
+      playerGameboard,
+      computerGameboard
+    );
   });
 
   startGameButton.addEventListener("click", () => {
@@ -44,9 +55,14 @@ const startGame = (playerGameboard, computerGameboard) => {
       playerInputForm.style.visibility = "hidden";
       startGameButton.style.visibility = "hidden";
       //create random ships and positions for user
-      const playerShips = randomizeShips();
+      let playerShips = randomizeShips();
       //create random ships and positions for user
-      const computerShips = randomizeShips();
+      let computerShips = randomizeShips();
+
+      while (!checkDistinct(isShipOverlapping(playerShips))) {
+        playerShips = randomizeShips();
+      }
+      console.log(checkDistinct(isShipOverlapping(playerShips)));
 
       //set ships at random positions
 
