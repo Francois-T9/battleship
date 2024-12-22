@@ -10,7 +10,7 @@ export function Ship(length, orientation, positions, numberOfHits, sunk) {
       this.numberOfHits++;
     },
     isSunk() {
-      if (this.numberOfHits > this.length) {
+      if (this.numberOfHits >= this.length) {
         this.sunk = true;
       } else this.sunk = false;
     },
