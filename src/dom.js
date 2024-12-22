@@ -3,7 +3,22 @@ const setAttackMarker = (state) => {
   //state will be 1 if attack hits
   // and 0 if attack misses
 };
+const checkDistinct = (array) => {
+  // Convert each [x, y] pair to a unique string representation
+  const checkSet = new Set(array.map((pair) => JSON.stringify(pair)));
 
+  // Compare the size of the set to the length of the array
+  return checkSet.size === array.length;
+};
+
+const isShipOverlapping = (ships) => {
+  const allPositions = [];
+  for (let ship of ships) {
+    allPositions.push(ship.positions);
+  }
+  const flatPostiions = allPositions.flat();
+  return flatPostiions;
+};
 //needs to make sure that the ships are not overlapping
 const randomizeShips = () => {
   let ships = [];
@@ -55,12 +70,39 @@ const setCellImage = (cell, img) => {
   cell.appendChild(imageContainer);
 };
 
-const clearBoard = (boardContainer, boardObject) => {
+//also need to clear gameBoard and ships
+const clearBoard = (boardContainer, gameboard) => {
+  const board = gameboard.getBoard();
+  const scoreContainer = document.querySelector(".score-board p");
+  scoreContainer.textContent = "";
+  gameboard.ships = [];
   boardContainer.innerHTML = "";
-  for (let i = 0; i < boardObject.length; i++) {
-    for (let j = 0; j < boardObject.length; j++) {
-      boardObject[i][j] = 0;
+  for (let i = 0; i < board.length; i++) {
+    for (let j = 0; j < board.length; j++) {
+      board[i][j] = 0;
     }
+  }
+};
+
+const displayScore = (text) => {
+  const scoreContainer = document.querySelector(".score-board p");
+  scoreContainer.textContent = text;
+};
+
+const containsSubarray = (array, x, y) => {
+  for (let i = 0; i < array.length; i++) {
+    if (array[i][0] === x && array[i][1] === y) {
+      return true;
+    }
+  }
+  return false;
+};
+
+const findWinner = (userGameboard, computerGameboard) => {
+  if (userGameboard.allShipsSunk()) {
+    console.log("User is the winner!");
+  } else if (computerGameboard.allShipsSunk()) {
+    console.log("COmputer won");
   }
 };
 
@@ -70,4 +112,9 @@ export {
   setAttackMarker,
   randomizeShips,
   setCellImage,
+  displayScore,
+  containsSubarray,
+  findWinner,
+  isShipOverlapping,
+  checkDistinct,
 };
