@@ -15,14 +15,15 @@ const game = (
   computerBoardObject
 ) => {
   let turnState = 1; // 1 for user turn, 0 for computer turn
-  let currentPlayer = "User";
-
+  let gameOver = false;
   // Function for the player's turn
   const userPlay = () => {
-    const userCells = document.querySelectorAll(
-      `.${playerGameboard.className}-cell`
+    if (gameOver) return;
+    //the user attacks computer cells
+    const computerCells = document.querySelectorAll(
+      `.${computerGameboard.className}-cell`
     );
-    userCells.forEach((cell) => {
+    computerCells.forEach((cell) => {
       // Remove previous listeners to prevent multiple event bindings
       cell.removeEventListener("click", handleUserClick);
 
@@ -32,26 +33,44 @@ const game = (
   };
 
   const handleUserClick = (event) => {
-    const cell = event.target;
-    const cellX = `${cell.className}-${cell.id}`.split("-")[3] - 1;
-    const cellY = `${cell.className}-${cell.id}`.split("-")[4] - 1;
+    if (gameOver) return;
+    let cell = event.target.closest(`.${computerGameboard.className}-cell`);
+    if (!cell) {
+      console.error("Click did not target a valid cell.");
+      return;
+    }
+    let cellX = `${cell.className}-${cell.id}`.split("-")[3] - 1;
+    let cellY = `${cell.className}-${cell.id}`.split("-")[4] - 1;
     if (
-      !containsSubarray(playerBoardObject.attackedCoordinates, cellX, cellY)
+      containsSubarray(computerBoardObject.attackedCoordinates, cellX, cellY)
     ) {
-      if (playerBoardObject.receiveAttack(cellX, cellY)) {
-        setCellImage(cell, hitImg);
-        displayScore(`Player attacks ${cellX}-${cellY} and hits!`);
-      } else {
-        setCellImage(cell, missImg);
-        displayScore(`Player attacks ${cellX}-${cellY} and misses!`);
-      }
+      displayScore(
+        document.querySelector(".player-score p"),
+        `Choose another cell`
+      );
+      cellX = `${cell.className}-${cell.id}`.split("-")[3] - 1;
+      cellY = `${cell.className}-${cell.id}`.split("-")[4] - 1;
+      return;
+    }
+    if (computerBoardObject.receiveAttack(cellX, cellY)) {
+      setCellImage(cell, hitImg);
+      displayScore(
+        document.querySelector(".player-score p"),
+        `Player attacks ${cellX}-${cellY} and hits!`
+      );
+    } else {
+      setCellImage(cell, missImg);
+      displayScore(
+        document.querySelector(".player-score p"),
+        `Player attacks ${cellX}-${cellY} and misses!`
+      );
+    }
+    console.log(computerBoardObject.ships);
+    if (computerBoardObject.allShipsSunk()) {
+      console.log("All computer ships sunk");
+      gameOver = true;
     }
     findWinner(playerBoardObject, computerBoardObject);
-
-    if (playerBoardObject.allShipsSunk()) {
-      console.log("All ships sunk");
-      return -1;
-    }
 
     turnState = 0; // Switch to computer's turn
     computerPlay(); // Start the computer's turn
@@ -59,33 +78,43 @@ const game = (
 
   // Function for the computer's turn
   const computerPlay = () => {
-    const computerCells = document.querySelectorAll(
-      `.${computerGameboard.className}-cell`
+    if (gameOver) return;
+    const userCells = document.querySelectorAll(
+      `.${playerGameboard.className}-cell`
     );
 
     // Simulate computer attacking a random cell
     //make sure that the computer does not attack an
     //already marked cell
-    const randomCell =
-      computerCells[Math.floor(Math.random() * computerCells.length)];
-    const cellX = `${randomCell.className}-${randomCell.id}`.split("-")[3] - 1;
-    const cellY = `${randomCell.className}-${randomCell.id}`.split("-")[4] - 1;
-
-    if (
-      !containsSubarray(computerBoardObject.attackedCoordinates, cellX, cellY)
+    let randomCell = userCells[Math.floor(Math.random() * userCells.length)];
+    let cellX = `${randomCell.className}-${randomCell.id}`.split("-")[3] - 1;
+    let cellY = `${randomCell.className}-${randomCell.id}`.split("-")[4] - 1;
+    while (
+      containsSubarray(playerBoardObject.attackedCoordinates, cellX, cellY)
     ) {
-      if (computerBoardObject.receiveAttack(cellX, cellY)) {
-        setCellImage(randomCell, hitImg);
-        displayScore(`Computer attacks ${cellX}-${cellY} and hits!`);
-      } else {
-        setCellImage(randomCell, missImg);
-        displayScore(`Computer attacks ${cellX}-${cellY} and misses!`);
-      }
+      randomCell = userCells[Math.floor(Math.random() * userCells.length)];
+      cellX = `${randomCell.className}-${randomCell.id}`.split("-")[3] - 1;
+      cellY = `${randomCell.className}-${randomCell.id}`.split("-")[4] - 1;
+    }
+    if (playerBoardObject.receiveAttack(cellX, cellY)) {
+      setCellImage(randomCell, hitImg);
+      displayScore(
+        document.querySelector(".computer-score p"),
+        `Computer attacks ${cellX}-${cellY} and hits!`
+      );
+    } else {
+      setCellImage(randomCell, missImg);
+      displayScore(
+        document.querySelector(".computer-score p"),
+        `Computer attacks ${cellX}-${cellY} and misses!`
+      );
     }
 
-    if (computerBoardObject.allShipsSunk()) {
-      console.log("All computer ships sunk");
+    if (playerBoardObject.allShipsSunk()) {
+      console.log("All player ships sunk");
+      gameOver = true;
     }
+    findWinner(playerBoardObject, computerBoardObject);
 
     turnState = 1; // Switch back to the player's turn
     userPlay(); // Start the player's turn
