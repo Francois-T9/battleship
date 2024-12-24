@@ -40,9 +40,6 @@ export function Gameboard() {
       for (let ship of this.ships) {
         for (let position of ship.positions) {
           if (position[0] == attackX && position[1] == attackY) {
-            console.log(
-              `Ship of length ${ship.length} and ${ship.orientation} has been hit`
-            );
             ship.hit();
             ship.isSunk();
             return true;
