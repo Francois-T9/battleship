@@ -58,6 +58,7 @@ const randomizeShips = () => {
 
 const displayShips = (gameboard, ships) => {
   const board = gameboard.getBoard();
+  gameboard.attackedCoordinates = [];
   for (let i = 0; i < ships.length; i++) {
     gameboard.setShip(board, ships[i]);
   }
@@ -73,8 +74,12 @@ const setCellImage = (cell, img) => {
 //also need to clear gameBoard and ships
 const clearBoard = (boardContainer, gameboard) => {
   const board = gameboard.getBoard();
-  const scoreContainer = document.querySelector(".score-board p");
-  scoreContainer.textContent = "";
+  const playerScore = document.querySelector(".player-score p");
+  const computerScore = document.querySelector(".computer-score p");
+  const winnerMessage = document.querySelector(".winner-message");
+  playerScore.textContent = "";
+  computerScore.textContent = "";
+  winnerMessage.style.display = "none";
   gameboard.ships = [];
   boardContainer.innerHTML = "";
   for (let i = 0; i < board.length; i++) {
@@ -84,9 +89,8 @@ const clearBoard = (boardContainer, gameboard) => {
   }
 };
 
-const displayScore = (text) => {
-  const scoreContainer = document.querySelector(".score-board p");
-  scoreContainer.textContent = text;
+const displayScore = (container, text) => {
+  container.textContent = text;
 };
 
 const containsSubarray = (array, x, y) => {
@@ -99,11 +103,37 @@ const containsSubarray = (array, x, y) => {
 };
 
 const findWinner = (userGameboard, computerGameboard) => {
+  const winnerMessageContainer = document.querySelector(".winner-message");
+  const computerScore = document.querySelector(".computer-score");
+  const userScore = document.querySelector(".player-score");
+  const winnerParagraph = document.querySelector(".winner-message p");
   if (userGameboard.allShipsSunk()) {
-    console.log("User is the winner!");
+    computerScore.style.display = "none";
+    userScore.style.display = "none";
+    winnerMessageContainer.style.display = "";
+
+    displayScore(winnerParagraph, "Computer won !");
   } else if (computerGameboard.allShipsSunk()) {
-    console.log("COmputer won");
+    computerScore.style.display = "none";
+    userScore.style.display = "none";
+    winnerMessageContainer.style.display = "";
+
+    displayScore(winnerParagraph, "User won !");
   }
+};
+
+const removeEventListener = (container) => {
+  container.forEach((cell) => {
+    cell.removeEventListener("click", () => {});
+  });
+};
+
+const toggleScore = () => {
+  const playerScore = document.querySelector(".player-score");
+  const computerScore = document.querySelector(".computer-score");
+
+  playerScore.style.display = "";
+  computerScore.style.display = "";
 };
 
 export {
@@ -117,4 +147,6 @@ export {
   findWinner,
   isShipOverlapping,
   checkDistinct,
+  removeEventListener,
+  toggleScore,
 };
