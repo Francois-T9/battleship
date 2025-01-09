@@ -5,7 +5,7 @@ Exercise from [_The Odin Project_](https://www.theodinproject.com/lessons/node-p
 
 ## Live view of the battleship game
 
-🔗[Play battleship!](https://raw.githack.com/Francois-T9/todo-list/gh-pages/index.html)
+🔗[Play battleship!](https://raw.githack.com/Francois-T9/battleship/gh-pages/index.html)
 
 ## Things to be implemented
 -Set manually the ships
