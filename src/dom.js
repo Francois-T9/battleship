@@ -122,12 +122,6 @@ const findWinner = (userGameboard, computerGameboard) => {
   }
 };
 
-const removeEventListener = (container) => {
-  container.forEach((cell) => {
-    cell.removeEventListener("click", () => {});
-  });
-};
-
 const toggleScore = () => {
   const playerScore = document.querySelector(".player-score");
   const computerScore = document.querySelector(".computer-score");
@@ -147,6 +141,5 @@ export {
   findWinner,
   isShipOverlapping,
   checkDistinct,
-  removeEventListener,
   toggleScore,
 };
