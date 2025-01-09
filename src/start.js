@@ -15,6 +15,9 @@ const startGame = (playerGameboard, computerGameboard) => {
   // buttons
   const startGameButton = document.getElementById("start-game");
   const randomizeButton = document.getElementById("randomize-ships");
+
+  const acceptName = document.getElementById("select-name-input");
+
   //name input
   const playerNameInput = document.getElementById("player-name");
   const playerInputForm = document.querySelector(".player-name-input");
@@ -48,51 +51,45 @@ const startGame = (playerGameboard, computerGameboard) => {
   });
 
   startGameButton.addEventListener("click", () => {
-    const acceptName = document.getElementById("select-name-input");
-    const cancelNameSelection = document.getElementById("cancel-name-input");
-    const scoreBoard = document.querySelector(".score-board");
     playerInputForm.style.visibility = "visible";
-    acceptName.addEventListener("click", () => {
-      scoreBoard.style.display = "";
-      let nameValue = playerNameInput.value;
-      displayPlayerName(nameValue);
-      playerInputForm.style.visibility = "hidden";
-      startGameButton.style.visibility = "hidden";
-      //create random ships and positions for user
-      let playerShips = randomizeShips();
-      //create random ships and positions for user
-      let computerShips = randomizeShips();
+    acceptName.addEventListener(
+      "click",
+      () => {
+        scoreBoard.style.display = "";
+        randomizeButton.style.display = "";
 
-      while (!checkDistinct(isShipOverlapping(playerShips))) {
-        playerShips = randomizeShips();
-      }
+        let nameValue = playerNameInput.value;
+        displayPlayerName(nameValue);
+        playerInputForm.style.visibility = "hidden";
+        startGameButton.style.visibility = "hidden";
+        startGameButton.style.display = "none";
 
-      while (!checkDistinct(isShipOverlapping(computerShips))) {
-        computerShips = randomizeShips();
-      }
-      // console.log(checkDistinct(isShipOverlapping(playerShips)));
+        let playerShips = randomizeShips();
+        let computerShips = randomizeShips();
 
-      //set ships at random positions
+        while (!checkDistinct(isShipOverlapping(playerShips))) {
+          playerShips = randomizeShips();
+        }
 
-      displayShips(playerGameboard, playerShips);
-      displayShips(computerGameboard, computerShips);
+        while (!checkDistinct(isShipOverlapping(computerShips))) {
+          computerShips = randomizeShips();
+        }
 
-      //display boards
+        displayShips(playerGameboard, playerShips);
+        displayShips(computerGameboard, computerShips);
 
-      renderGameboard(playerBoard, playerGameboardContainer);
-      renderGameboard(computerBoard, computerGameboardContainer);
+        renderGameboard(playerBoard, playerGameboardContainer);
+        renderGameboard(computerBoard, computerGameboardContainer);
 
-      //starts the game
-      game(
-        playerGameboardContainer,
-        computerGameboardContainer,
-        playerGameboard,
-        computerGameboard
-      );
-    });
-    cancelNameSelection.addEventListener("click", () => {
-      playerInputForm.style.visibility = "hidden";
-    });
+        game(
+          playerGameboardContainer,
+          computerGameboardContainer,
+          playerGameboard,
+          computerGameboard
+        );
+      },
+      { once: true }
+    );
   });
 
   const displayPlayerName = (name) => {
