@@ -65,9 +65,7 @@ const game = (
         `Player attacks ${cellX}-${cellY} and misses!`
       );
     }
-    console.log(computerBoardObject.ships);
     if (computerBoardObject.allShipsSunk()) {
-      console.log("All computer ships sunk");
       gameOver = true;
     }
     findWinner(playerBoardObject, computerBoardObject);
